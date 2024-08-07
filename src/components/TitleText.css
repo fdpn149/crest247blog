@@ -1,0 +1,50 @@
+.title-text {
+    margin-left: 100px;
+}
+
+@keyframes moveWave1 {
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+}
+
+@keyframes moveWave2 {
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+}
+
+@keyframes moveWave3 {
+	0% {
+		transform: translateX(0);
+	}
+	100% {
+		transform: translateX(-100%);
+	}
+}
+
+.wave1 {
+	animation: moveWave1 6s infinite linear;
+	animation-delay: 2s;
+}
+
+.wave2 {
+	animation: moveWave2 6s infinite linear;
+	animation-delay: 1s;
+}
+
+.wave3 {
+	animation: moveWave3 6s infinite linear;
+}
+
+@media (max-width: 768px) {
+	.title-text {
+        margin: 0 20px;
+    }
+}

@@ -1,0 +1,12 @@
+.post-container {
+	padding: 0px 100px;
+}
+
+@media (max-width: 768px) {
+	.post-container {
+		padding: 0px 0px;
+	}
+	ul ul {
+		padding-left: 1em;
+	}
+}
