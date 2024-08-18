@@ -8,10 +8,11 @@
 	background: linear-gradient(to right, #000, #1c1c1c, #000);
 	box-shadow: 0 2px 4px rgba(255, 255, 255, 0.05);
 	width: 100%;
+	margin-bottom: 20px;
 }
 
 .title {
-	font-family: 'Microsoft YaHei';
+	font-family: "Microsoft YaHei";
 	margin: 0;
 	cursor: pointer;
 }
@@ -36,6 +37,13 @@
 
 .nav-button:hover {
 	background-color: rgb(111, 7, 163);
+}
+
+@media (max-width: 768px) {
+	.header {
+		padding: 0px;
+		justify-content: center;
+	}
 }
 
 @media (prefers-color-scheme: light) {

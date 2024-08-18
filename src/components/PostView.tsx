@@ -1,16 +1,16 @@
-import { FC, Fragment, ReactNode } from 'react';
+import { FC, Fragment, ReactNode } from "react";
 
-import SyntaxHighlighter from 'react-syntax-highlighter';
+import SyntaxHighlighter from "react-syntax-highlighter";
 import {
 	tomorrow,
 	tomorrowNight,
-} from 'react-syntax-highlighter/dist/esm/styles/hljs';
-import 'katex/dist/katex.min.css';
-import { InlineMath } from 'react-katex';
+} from "react-syntax-highlighter/dist/esm/styles/hljs";
+import "katex/dist/katex.min.css";
+import { InlineMath } from "react-katex";
 
-import './PostView.css';
-import { Col, Row } from 'react-bootstrap';
-import { useTheme } from '../utils/useTheme';
+import "./PostView.css";
+import { Col, Row } from "react-bootstrap";
+import { useTheme } from "../utils/useTheme";
 
 interface Props {
 	json: Array<any>;
@@ -21,6 +21,8 @@ const PostView: FC<Props> = ({ json }) => {
 
 	let parseMap: { [type: string]: any } = {
 		h1: parseH1,
+		h2: parseH2,
+		h3: parseH3,
 		ul: parseUl,
 		li: parseLi,
 		script: parseScript,
@@ -33,7 +35,7 @@ const PostView: FC<Props> = ({ json }) => {
 		arr.forEach((element, index) => {
 			result.push(
 				<Fragment key={index}>
-					{parseElement(element['type'], element['value'])}
+					{parseElement(element["type"], element["value"])}
 				</Fragment>
 			);
 		});
@@ -45,33 +47,71 @@ const PostView: FC<Props> = ({ json }) => {
 	}
 
 	function parseString(str: string) {
-		const maths = [...str.matchAll(/\$\$(.+?)\$\$/g)].map((value) => {
-			return { index: value.index, value: value[1] };
-		});
-		if (maths.length > 0) {
-			let result = [];
-			result.push(str.substring(0, maths[0].index));
-
-			for (let i = 0; i < maths.length; i++) {
-				result.push(<InlineMath key={i} math={maths[i].value} />);
-				if (i + 1 >= maths.length) {
-					result.push(str.substring(maths[i].index + maths[i].value.length + 4));
-				} else {
-					result.push(
-						str.substring(
-							maths[i].index + maths[i].value.length + 4,
-							maths[i + 1].index
-						)
-					);
-				}
+		let prev = "";
+		let substr = "";
+		let mode = "none";
+		let result: Array<any> = [];
+		for (let i = 0; i < str.length; i++) {
+			switch (mode) {
+				case "none":
+					if (str[i] === "$") {
+						if (prev === "$") {
+							mode = "$";
+							result.push(substr.substring(0, substr.length - 2));
+							substr = "";
+						} else {
+							substr += str[i];
+						}
+					} else if (str[i] === "`") {
+						mode = "`";
+						result.push(substr);
+					} else {
+						substr += str[i];
+					}
+					break;
+				case "$":
+					if (str[i] === "$" && prev === "$") {
+						mode = "none";
+						result.push(
+							<InlineMath key={i} math={substr.substring(0, substr.length - 1)} />
+						);
+						substr = "";
+					} else {
+						substr += str[i];
+					}
+					break;
+				case "`":
+					if (str[i] === "`") {
+						mode = "none";
+						result.push(<code key={i}>{substr}</code>);
+						substr = "";
+					} else {
+						substr += str[i];
+					}
+					break;
 			}
 
-			return result;
-		} else return str;
+			prev = str[i];
+		}
+
+		if (substr.length > 0) result.push(substr);
+
+		return result;
 	}
 
 	function parseH1(value: string) {
-		return <h1>{parseString(value)}</h1>;
+		return (
+			<>
+				<h1>{parseString(value)}</h1>
+				<hr />
+			</>
+		);
+	}
+	function parseH2(value: string) {
+		return <h2>{parseString(value)}</h2>;
+	}
+	function parseH3(value: string) {
+		return <h3>{parseString(value)}</h3>;
 	}
 
 	function parseUl(arr: Array<string>) {
@@ -79,7 +119,7 @@ const PostView: FC<Props> = ({ json }) => {
 	}
 
 	function parseLi(value: string | Array<any>) {
-		if (typeof value === 'string') {
+		if (typeof value === "string") {
 			return <li>{parseString(value)}</li>;
 		} else if (Array.isArray(value)) {
 			let arr: Array<any> = [...value.slice(1)];
@@ -98,7 +138,7 @@ const PostView: FC<Props> = ({ json }) => {
 		return (
 			<SyntaxHighlighter
 				language={type}
-				style={colorScheme === 'dark' ? tomorrowNight : tomorrow}
+				style={colorScheme === "dark" ? tomorrowNight : tomorrow}
 				className="codeBlock">
 				{script}
 			</SyntaxHighlighter>
@@ -106,7 +146,7 @@ const PostView: FC<Props> = ({ json }) => {
 	}
 
 	function parseImg(value: string) {
-		return <img src={value} style={{ maxWidth: '100%', width: '90vw' }} />;
+		return <img src={value} style={{ maxWidth: "100%", width: "90vw" }} />;
 	}
 
 	function parseSplit(arr: Array<any>) {

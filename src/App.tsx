@@ -1,4 +1,4 @@
-import { FunctionComponent, useEffect, useState } from 'react';
+import { FunctionComponent, useEffect } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import firebase from './utils/firebase';
 import 'firebase/compat/auth';
@@ -8,7 +8,6 @@ import Home from './pages/Home';
 import Account from './utils/Account';
 import Topic from './pages/Topic';
 import Post from './pages/Post';
-import { useTheme } from './utils/useTheme';
 
 const App: FunctionComponent = () => {
 	let account = new Account();

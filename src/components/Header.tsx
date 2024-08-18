@@ -14,11 +14,11 @@ const Header: FC = () => {
 				}}>
 				波峰的小棧
 			</h1>
-			<nav className="nav">
+			{/* <nav className="nav">
 				<button className="nav-button">按鈕一</button>
 				<button className="nav-button">按鈕二</button>
 				<button className="nav-button">按鈕三</button>
-			</nav>
+			</nav> */}
 		</header>
 	);
 };

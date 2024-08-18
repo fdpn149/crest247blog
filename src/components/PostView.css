@@ -8,25 +8,29 @@ img {
 	display: block;
 	width: auto !important;
 	max-width: 100%;
-    margin-top: 2px;
+	margin-top: 2px;
 	margin-bottom: 5px;
 }
 
+li {
+	padding-left: 0.5rem;
+}
+
 ul {
-	list-style-type: '🟂';
+	list-style-type: "▲";
 }
 
 ul ul {
 	padding-left: 3%;
-	list-style-type: '🟆';
+	list-style-type: "◆";
 }
 
 ul ul ul {
-	list-style-type: '🟊';
+	list-style-type: "⬟";
 }
 
 ul ul ul ul {
-	list-style-type: '🟌';
+	list-style-type: "⬢";
 }
 
 ul li:not(:first-child) {
@@ -34,8 +38,12 @@ ul li:not(:first-child) {
 	padding-bottom: 1vh;
 }
 
+li::marker {
+	font-family: "Cascadia Code", "Consolas", monospace;
+}
+
 .codeBlock {
-    margin-top: 2px;
+	margin-top: 2px;
 	margin-bottom: 5px;
 	max-width: fit-content;
 	overflow-x: auto;
@@ -43,8 +51,23 @@ ul li:not(:first-child) {
 }
 
 code {
-	font-family: 'Cascadia Code';
-	font-size: small;
+	font-family: "Cascadia Code", "Consolas", monospace;
+	color: white;
+}
+
+.post-container h1 {
+	font-size: 2.4rem;
+	padding-left: 1rem;
+}
+
+.post-container h2 {
+	font-size: 1.8rem;
+	padding-left: 1rem;
+}
+
+.post-container h3 {
+	font-size: 1.2rem;
+	padding-left: 1rem;
 }
 
 @media (max-width: 768px) {
@@ -64,5 +87,8 @@ code {
 	}
 	.codeBlock {
 		background-color: #e3e3e3 !important;
+	}
+	code {
+		color: black;
 	}
 }
