@@ -21,11 +21,11 @@
 }
 
 @media (prefers-color-scheme: light) {
-	.card {
+	.card-item {
 		border: 1px solid #ddd;
 	}
 
-	.card:hover {
+	.card-item:hover {
 		box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 	}
 }
