@@ -25,3 +25,4 @@ dist-ssr
 
 src/utils/Account.tsx
 src/utils/firebase.tsx
+.firebase/*

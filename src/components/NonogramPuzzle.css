@@ -1,0 +1,55 @@
+.game {
+	display: grid;
+	width: fit-content;
+	grid-template-columns: auto auto;
+	grid-template-rows: auto auto;
+}
+
+.play-grid {
+	display: grid;
+	width: fit-content;
+	grid-template-columns: repeat(16, 1fr);
+}
+
+.puzzle-cols {
+	display: flex;
+	flex-direction: row;
+}
+
+.puzzle-col {
+	display: flex;
+	flex-direction: column;
+	justify-content: flex-end;
+	text-align: center;
+}
+
+.puzzle-rows {
+	display: flex;
+	flex-direction: column;
+}
+
+.puzzle-row {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-end;
+	text-align: center;
+}
+
+.puzzle-col span {
+	/* filter: invert(); */
+	text-shadow: 1px 1px 3px black;
+	color: white;
+}
+
+.puzzle-row span {
+	/* filter: invert(); */
+	text-shadow: 1px 1px 3px black;
+	color: white;
+}
+
+.cell {
+	background-color: #e0e0e0;
+	width: 25px;
+	height: 25px;
+	border: 1px solid #000000;
+}
