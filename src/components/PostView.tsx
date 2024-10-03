@@ -47,55 +47,70 @@ const PostView: FC<Props> = ({ json }) => {
 	}
 
 	function parseString(str: string) {
-		let prev = "";
-		let substr = "";
-		let mode = "none";
 		let result: Array<any> = [];
+		let captured = "";
+		let mode = "_";
 		for (let i = 0; i < str.length; i++) {
 			switch (mode) {
-				case "none":
+				case "_":
 					if (str[i] === "$") {
-						if (prev === "$") {
-							mode = "$";
-							result.push(substr.substring(0, substr.length - 2));
-							substr = "";
-						} else {
-							substr += str[i];
-						}
+						mode = "$";
+						captured += str[i];
 					} else if (str[i] === "`") {
 						mode = "`";
-						result.push(substr);
-					} else {
-						substr += str[i];
-					}
+						result.push(captured);
+						captured = "";
+					} else captured += str[i];
 					break;
 				case "$":
-					if (str[i] === "$" && prev === "$") {
-						mode = "none";
-						result.push(
-							<InlineMath key={i} math={substr.substring(0, substr.length - 1)} />
-						);
-						substr = "";
+					if (str[i] === "$") {
+						mode = "$$";
+						result.push(captured.substring(0, captured.length - 1));
+						captured = "";
+					} else if (str[i] === "`") {
+						mode = "`";
+						result.push(captured);
+						captured = "";
 					} else {
-						substr += str[i];
+						mode = "_";
+						captured += str[i];
+					}
+					break;
+				case "$$":
+					if (str[i] === "$") {
+						mode = "$$$";
+						captured += str[i];
+					} else {
+						captured += str[i];
+					}
+					break;
+				case "$$$":
+					if (str[i] === "$") {
+						mode = "_";
+						result.push(
+							<InlineMath
+								key={i}
+								math={captured.substring(0, captured.length - 1)}
+							/>
+						);
+						captured = "";
+					} else {
+						mode = "$$";
+						captured += str[i];
 					}
 					break;
 				case "`":
 					if (str[i] === "`") {
-						mode = "none";
-						result.push(<code key={i}>{substr}</code>);
-						substr = "";
+						mode = "_";
+						result.push(<code key={i}>{captured}</code>);
+						captured = "";
 					} else {
-						substr += str[i];
+						captured += str[i];
 					}
 					break;
 			}
-
-			prev = str[i];
 		}
-
-		if (substr.length > 0) result.push(substr);
-
+		result.push(captured);
 		return result;
 	}
 

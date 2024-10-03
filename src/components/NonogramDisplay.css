@@ -48,8 +48,15 @@
 }
 
 .cell {
-	background-color: #e0e0e0;
+	background-color: white;
 	width: 25px;
 	height: 25px;
 	border: 1px solid #000000;
+	transition: transform 0.2s, box-shadow 0.2s;
+	user-select: none;
+}
+
+.cell-selected {
+	transform: scale(1.1);
+	box-shadow: 1px 1px 3px black;
 }
